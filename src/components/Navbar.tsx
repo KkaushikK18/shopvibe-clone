@@ -165,17 +165,23 @@ export const Navbar = ({ cartCount = 0 }: NavbarProps) => {
             <Link to="/products?category=Books" className="text-sm text-white hover:border hover:border-white/30 px-2 py-1 rounded whitespace-nowrap font-medium">
               Books
             </Link>
-            <Link to="/products?category=Sports" className="text-sm text-white hover:border hover:border-white/30 px-2 py-1 rounded whitespace-nowrap font-medium">
-              Sports
+            <Link to="/products?category=Sports & Fitness" className="text-sm text-white hover:border hover:border-white/30 px-2 py-1 rounded whitespace-nowrap font-medium">
+              Sports & Fitness
             </Link>
-            <Link to="/products?category=Beauty" className="text-sm text-white hover:border hover:border-white/30 px-2 py-1 rounded whitespace-nowrap font-medium">
+            <Link to="/products?category=Beauty & Personal Care" className="text-sm text-white hover:border hover:border-white/30 px-2 py-1 rounded whitespace-nowrap font-medium">
               Beauty
             </Link>
-            <Link to="/products?category=Toys" className="text-sm text-white hover:border hover:border-white/30 px-2 py-1 rounded whitespace-nowrap font-medium">
+            <Link to="/products?category=Toys & Games" className="text-sm text-white hover:border hover:border-white/30 px-2 py-1 rounded whitespace-nowrap font-medium">
               Toys
             </Link>
-            <Link to="/products?category=Grocery" className="text-sm text-white hover:border hover:border-white/30 px-2 py-1 rounded whitespace-nowrap font-medium">
+            <Link to="/products?category=Grocery & Gourmet" className="text-sm text-white hover:border hover:border-white/30 px-2 py-1 rounded whitespace-nowrap font-medium">
               Grocery
+            </Link>
+            <Link to="/products?category=Automotive" className="text-sm text-white hover:border hover:border-white/30 px-2 py-1 rounded whitespace-nowrap font-medium">
+              Automotive
+            </Link>
+            <Link to="/products?category=Pet Supplies" className="text-sm text-white hover:border hover:border-white/30 px-2 py-1 rounded whitespace-nowrap font-medium">
+              Pet Supplies
             </Link>
             <span className="text-sm text-primary font-bold whitespace-nowrap">Today's Deals</span>
           </div>

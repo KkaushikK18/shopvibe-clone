@@ -30,12 +30,27 @@ const Products = () => {
         product.price >= priceRange[0] && product.price <= priceRange[1];
       const ratingMatch = product.rating >= minRating;
       
-      // Search functionality
-      const searchMatch = !searchQuery || 
-        product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchQuery.toLowerCase());
+      // Enhanced search functionality
+      if (!searchQuery) {
+        return categoryMatch && priceMatch && ratingMatch;
+      }
+
+      const query = searchQuery.toLowerCase().trim();
+      const searchTerms = query.split(' ').filter(term => term.length > 0);
+      
+      // Search in multiple fields
+      const searchableText = [
+        product.title,
+        product.brand,
+        product.category,
+        product.description,
+        ...product.features,
+      ].join(' ').toLowerCase();
+
+      // Check if all search terms are present (AND logic)
+      const searchMatch = searchTerms.every(term => 
+        searchableText.includes(term)
+      );
 
       return categoryMatch && priceMatch && ratingMatch && searchMatch;
     });

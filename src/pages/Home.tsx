@@ -39,9 +39,29 @@ const Home = () => {
       link: "/products?category=Home & Kitchen",
     },
     {
-      title: "Beauty",
+      title: "Beauty & Personal Care",
       image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=500&q=80",
-      link: "/products?category=Beauty",
+      link: "/products?category=Beauty & Personal Care",
+    },
+    {
+      title: "Sports & Fitness",
+      image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=500&q=80",
+      link: "/products?category=Sports & Fitness",
+    },
+    {
+      title: "Toys & Games",
+      image: "https://images.unsplash.com/photo-1560015534-cee980ba7e13?w=500&q=80",
+      link: "/products?category=Toys & Games",
+    },
+    {
+      title: "Books",
+      image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500&q=80",
+      link: "/products?category=Books",
+    },
+    {
+      title: "Automotive",
+      image: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=500&q=80",
+      link: "/products?category=Automotive",
     },
   ];
 
@@ -92,7 +112,7 @@ const Home = () => {
       {/* Shop by Category */}
       <div className="container mx-auto px-4 py-8">
         <h2 className="text-2xl font-bold mb-6">Shop by Category</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
           {categories.map((category) => (
             <CategoryCard
               key={category.title}

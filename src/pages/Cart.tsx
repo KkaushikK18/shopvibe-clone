@@ -1,12 +1,17 @@
 import { Navbar } from "@/components/Navbar";
 import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
-import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
+import { Minus, Plus, Trash2, ShoppingBag, AlertCircle, Truck } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { useState } from "react";
 
 const Cart = () => {
   const { items, updateQuantity, removeFromCart, getTotalItems, getTotalPrice } = useCart();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const [updatingItem, setUpdatingItem] = useState<string | null>(null);
 
   if (items.length === 0) {
     return (
@@ -73,30 +78,62 @@ const Cart = () => {
                       <Button
                         size="icon"
                         variant="outline"
-                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                        disabled={item.quantity <= 1}
+                        onClick={() => {
+                          if (item.quantity > 1) {
+                            setUpdatingItem(item.id);
+                            updateQuantity(item.id, item.quantity - 1);
+                            setTimeout(() => setUpdatingItem(null), 300);
+                          }
+                        }}
+                        disabled={item.quantity <= 1 || updatingItem === item.id}
                       >
                         <Minus className="h-4 w-4" />
                       </Button>
-                      <span className="w-12 text-center">{item.quantity}</span>
+                      <span className="w-12 text-center font-medium">{item.quantity}</span>
                       <Button
                         size="icon"
                         variant="outline"
-                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        onClick={() => {
+                          if (item.quantity < item.stock) {
+                            setUpdatingItem(item.id);
+                            updateQuantity(item.id, item.quantity + 1);
+                            setTimeout(() => setUpdatingItem(null), 300);
+                          } else {
+                            toast.error(`Only ${item.stock} items available in stock`);
+                          }
+                        }}
+                        disabled={item.quantity >= item.stock || updatingItem === item.id}
                       >
                         <Plus className="h-4 w-4" />
                       </Button>
                     </div>
 
                     <Button
-                      size="icon"
+                      size="sm"
                       variant="ghost"
-                      onClick={() => removeFromCart(item.id)}
+                      onClick={() => {
+                        removeFromCart(item.id);
+                      }}
                       className="text-destructive hover:bg-destructive/10"
                     >
-                      <Trash2 className="h-5 w-5" />
+                      <Trash2 className="h-4 w-4 mr-1" />
+                      Remove
                     </Button>
                   </div>
+
+                  {item.quantity >= item.stock && (
+                    <div className="mt-2 flex items-center gap-1 text-xs text-destructive">
+                      <AlertCircle className="h-3 w-3" />
+                      <span>Maximum quantity reached</span>
+                    </div>
+                  )}
+
+                  {item.stock < 10 && (
+                    <div className="mt-2 flex items-center gap-1 text-xs text-orange-600">
+                      <AlertCircle className="h-3 w-3" />
+                      <span>Only {item.stock} left in stock</span>
+                    </div>
+                  )}
                 </div>
 
                 <div className="text-right">
@@ -140,17 +177,44 @@ const Cart = () => {
               </div>
 
               {subtotal < 8300 && (
-                <p className="mt-3 text-sm text-muted-foreground">
-                  Add ₹{(8300 - subtotal).toLocaleString('en-IN')} more for FREE shipping
-                </p>
+                <div className="mt-4 p-3 bg-accent rounded-lg">
+                  <div className="flex items-start gap-2">
+                    <Truck className="h-5 w-5 text-primary mt-0.5" />
+                    <div>
+                      <p className="text-sm font-medium">Add ₹{(8300 - subtotal).toLocaleString('en-IN')} more for FREE shipping</p>
+                      <div className="mt-2 h-2 bg-muted rounded-full overflow-hidden">
+                        <div 
+                          className="h-full bg-primary transition-all duration-300"
+                          style={{ width: `${Math.min((subtotal / 8300) * 100, 100)}%` }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {subtotal >= 8300 && (
+                <div className="mt-4 p-3 bg-success/10 rounded-lg">
+                  <div className="flex items-center gap-2 text-success">
+                    <Truck className="h-5 w-5" />
+                    <p className="text-sm font-medium">You qualify for FREE shipping!</p>
+                  </div>
+                </div>
               )}
 
               <Button
                 className="mt-6 w-full bg-primary hover:bg-primary-hover"
                 size="lg"
-                onClick={() => navigate("/checkout")}
+                onClick={() => {
+                  if (!isAuthenticated) {
+                    toast.error("Please login to continue");
+                    navigate("/login", { state: { from: { pathname: "/checkout" } } });
+                  } else {
+                    navigate("/checkout");
+                  }
+                }}
               >
-                Proceed to Checkout
+                {isAuthenticated ? "Proceed to Checkout" : "Login to Checkout"}
               </Button>
 
               <Link to="/products">

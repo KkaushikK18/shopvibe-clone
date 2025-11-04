@@ -31,28 +31,85 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const login = (email: string, password: string): boolean => {
-    // Simple validation - in real app, this would call an API
-    if (email && password.length >= 6) {
-      const userData = { email, name: email.split("@")[0] };
+    try {
+      // Simple validation - in real app, this would call an API
+      if (!email || !password) {
+        toast.error("Please enter email and password");
+        return false;
+      }
+
+      if (password.length < 6) {
+        toast.error("Password must be at least 6 characters");
+        return false;
+      }
+
+      // Check if user exists in localStorage (for demo)
+      const existingUsers = JSON.parse(localStorage.getItem("amazon_users") || "[]");
+      const userExists = existingUsers.find((u: any) => u.email === email);
+
+      if (!userExists) {
+        toast.error("Account not found. Please register first.");
+        return false;
+      }
+
+      if (userExists.password !== password) {
+        toast.error("Incorrect password. Please try again.");
+        return false;
+      }
+
+      const userData = { email: userExists.email, name: userExists.name };
       setUser(userData);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(userData));
-      toast.success("Login successful!");
+      toast.success(`Welcome back, ${userExists.name}!`);
       return true;
+    } catch (error) {
+      console.error("Login error:", error);
+      toast.error("An error occurred during login. Please try again.");
+      return false;
     }
-    toast.error("Invalid credentials");
-    return false;
   };
 
   const register = (email: string, password: string, name: string): boolean => {
-    if (email && password.length >= 6 && name) {
+    try {
+      if (!email || !password || !name) {
+        toast.error("Please fill all fields");
+        return false;
+      }
+
+      if (name.length < 2) {
+        toast.error("Name must be at least 2 characters");
+        return false;
+      }
+
+      if (password.length < 6) {
+        toast.error("Password must be at least 6 characters");
+        return false;
+      }
+
+      // Check if user already exists
+      const existingUsers = JSON.parse(localStorage.getItem("amazon_users") || "[]");
+      const userExists = existingUsers.find((u: any) => u.email === email);
+
+      if (userExists) {
+        toast.error("An account with this email already exists. Please login.");
+        return false;
+      }
+
+      // Save user to localStorage
+      const newUser = { email, password, name };
+      existingUsers.push(newUser);
+      localStorage.setItem("amazon_users", JSON.stringify(existingUsers));
+
       const userData = { email, name };
       setUser(userData);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(userData));
-      toast.success("Account created successfully!");
+      toast.success(`Welcome to Amazon, ${name}!`);
       return true;
+    } catch (error) {
+      console.error("Registration error:", error);
+      toast.error("An error occurred during registration. Please try again.");
+      return false;
     }
-    toast.error("Please fill all fields correctly");
-    return false;
   };
 
   const logout = () => {

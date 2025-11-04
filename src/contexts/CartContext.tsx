@@ -26,12 +26,24 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       const existingItem = prev.find((item) => item.id === product.id);
       
       if (existingItem) {
-        toast.success("Updated cart quantity");
+        const newQuantity = existingItem.quantity + quantity;
+        
+        if (newQuantity > product.stock) {
+          toast.error(`Only ${product.stock} items available in stock`);
+          return prev;
+        }
+        
+        toast.success("Cart updated");
         return prev.map((item) =>
           item.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
+            ? { ...item, quantity: newQuantity }
             : item
         );
+      }
+      
+      if (quantity > product.stock) {
+        toast.error(`Only ${product.stock} items available in stock`);
+        return prev;
       }
       
       toast.success("Added to cart");
@@ -40,13 +52,20 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const removeFromCart = (productId: string) => {
+    const item = items.find((i) => i.id === productId);
     setItems((prev) => prev.filter((item) => item.id !== productId));
-    toast.success("Removed from cart");
+    toast.success(`${item?.title || "Item"} removed from cart`);
   };
 
   const updateQuantity = (productId: string, quantity: number) => {
     if (quantity < 1) {
       removeFromCart(productId);
+      return;
+    }
+
+    const item = items.find((i) => i.id === productId);
+    if (item && quantity > item.stock) {
+      toast.error(`Only ${item.stock} items available in stock`);
       return;
     }
     

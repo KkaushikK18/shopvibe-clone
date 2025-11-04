@@ -1,0 +1,212 @@
+export interface Product {
+  id: string;
+  title: string;
+  brand: string;
+  category: string;
+  price: number;
+  originalPrice?: number;
+  rating: number;
+  reviews: number;
+  image: string;
+  images?: string[];
+  description: string;
+  features: string[];
+  stock: number;
+  badge?: string;
+  isPrime?: boolean;
+  delivery?: string;
+}
+
+export const categories = [
+  "Electronics",
+  "Fashion",
+  "Home & Kitchen",
+  "Books",
+  "Sports",
+  "Toys",
+  "Beauty",
+  "Grocery",
+];
+
+export const products: Product[] = [
+  {
+    id: "1",
+    title: "Premium Wireless Headphones with Noise Cancellation",
+    brand: "AudioTech",
+    category: "Electronics",
+    price: 149.99,
+    originalPrice: 249.99,
+    rating: 4.5,
+    reviews: 2847,
+    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80",
+      "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=500&q=80",
+    ],
+    description: "Experience premium sound quality with our advanced wireless headphones featuring active noise cancellation.",
+    features: [
+      "Active Noise Cancellation",
+      "30-hour battery life",
+      "Bluetooth 5.0",
+      "Comfortable over-ear design",
+      "Premium sound quality",
+    ],
+    stock: 45,
+    badge: "Deal of the Day",
+    isPrime: true,
+    delivery: "Tomorrow",
+  },
+  {
+    id: "2",
+    title: "Smart Fitness Tracker Watch with Heart Rate Monitor",
+    brand: "FitLife",
+    category: "Electronics",
+    price: 79.99,
+    originalPrice: 129.99,
+    rating: 4.3,
+    reviews: 1523,
+    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80",
+    description: "Track your fitness goals with this advanced smartwatch featuring heart rate monitoring and GPS.",
+    features: [
+      "Heart rate monitoring",
+      "GPS tracking",
+      "Water resistant",
+      "7-day battery life",
+      "Sleep tracking",
+    ],
+    stock: 120,
+    isPrime: true,
+    delivery: "Tomorrow",
+  },
+  {
+    id: "3",
+    title: "Professional DSLR Camera with 24MP Sensor",
+    brand: "PhotoPro",
+    category: "Electronics",
+    price: 899.99,
+    rating: 4.7,
+    reviews: 892,
+    image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500&q=80",
+    description: "Capture stunning photos with this professional-grade DSLR camera.",
+    features: [
+      "24MP APS-C sensor",
+      "4K video recording",
+      "WiFi connectivity",
+      "Dual card slots",
+      "Weather sealed",
+    ],
+    stock: 23,
+    isPrime: false,
+    delivery: "2-3 days",
+  },
+  {
+    id: "4",
+    title: "Minimalist Leather Backpack for Laptop",
+    brand: "UrbanStyle",
+    category: "Fashion",
+    price: 89.99,
+    originalPrice: 149.99,
+    rating: 4.6,
+    reviews: 3421,
+    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&q=80",
+    description: "Stylish and functional leather backpack perfect for daily commute.",
+    features: [
+      "Genuine leather",
+      "Fits 15-inch laptop",
+      "Multiple compartments",
+      "Water resistant",
+      "Ergonomic design",
+    ],
+    stock: 67,
+    badge: "Best Seller",
+    isPrime: true,
+    delivery: "Tomorrow",
+  },
+  {
+    id: "5",
+    title: "Stainless Steel Coffee Maker with Timer",
+    brand: "BrewMaster",
+    category: "Home & Kitchen",
+    price: 129.99,
+    rating: 4.4,
+    reviews: 1876,
+    image: "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=500&q=80",
+    description: "Wake up to fresh coffee every morning with this programmable coffee maker.",
+    features: [
+      "12-cup capacity",
+      "Programmable timer",
+      "Auto shut-off",
+      "Stainless steel finish",
+      "Permanent filter",
+    ],
+    stock: 89,
+    isPrime: true,
+    delivery: "Tomorrow",
+  },
+  {
+    id: "6",
+    title: "Wireless Gaming Mouse with RGB Lighting",
+    brand: "GamePro",
+    category: "Electronics",
+    price: 59.99,
+    originalPrice: 99.99,
+    rating: 4.8,
+    reviews: 4567,
+    image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=500&q=80",
+    description: "High-precision gaming mouse with customizable RGB lighting.",
+    features: [
+      "16000 DPI sensor",
+      "Wireless 2.4GHz",
+      "RGB lighting",
+      "Programmable buttons",
+      "70-hour battery",
+    ],
+    stock: 234,
+    badge: "Top Rated",
+    isPrime: true,
+    delivery: "Tomorrow",
+  },
+  {
+    id: "7",
+    title: "Portable Bluetooth Speaker - Waterproof",
+    brand: "SoundWave",
+    category: "Electronics",
+    price: 49.99,
+    rating: 4.5,
+    reviews: 2103,
+    image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500&q=80",
+    description: "Take your music anywhere with this waterproof Bluetooth speaker.",
+    features: [
+      "IPX7 waterproof",
+      "12-hour playtime",
+      "360° sound",
+      "Built-in microphone",
+      "Compact design",
+    ],
+    stock: 156,
+    isPrime: true,
+    delivery: "Tomorrow",
+  },
+  {
+    id: "8",
+    title: "Ergonomic Office Chair with Lumbar Support",
+    brand: "ComfortSeating",
+    category: "Home & Kitchen",
+    price: 299.99,
+    originalPrice: 449.99,
+    rating: 4.6,
+    reviews: 987,
+    image: "https://images.unsplash.com/photo-1580480055273-228ff5388ef8?w=500&q=80",
+    description: "Stay comfortable during long work hours with this ergonomic office chair.",
+    features: [
+      "Adjustable lumbar support",
+      "Breathable mesh back",
+      "Height adjustable",
+      "360° swivel",
+      "Maximum weight: 300 lbs",
+    ],
+    stock: 34,
+    isPrime: false,
+    delivery: "3-5 days",
+  },
+];

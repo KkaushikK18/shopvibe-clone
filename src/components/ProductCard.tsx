@@ -23,14 +23,14 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   };
 
   return (
-    <div className="group h-full overflow-hidden rounded-lg border bg-card transition-all hover:shadow-lg">
+    <div className="group h-full overflow-hidden rounded-lg border bg-card transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
       <Link to={`/product/${product.id}`} className="block">
         {/* Image */}
         <div className="relative aspect-square overflow-hidden bg-muted">
           <img
             src={product.image}
             alt={product.title}
-            className="h-full w-full object-cover transition-transform group-hover:scale-105"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
           {product.badge && (
             <Badge className="absolute left-2 top-2 bg-badge text-white">

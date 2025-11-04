@@ -18,7 +18,7 @@ const Products = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     categoryParam ? [categoryParam] : []
   );
-  const [priceRange, setPriceRange] = useState<number[]>([0, 1000]);
+  const [priceRange, setPriceRange] = useState<number[]>([0, 250000]);
   const [minRating, setMinRating] = useState<number>(0);
 
   const filteredProducts = useMemo(() => {
@@ -88,15 +88,15 @@ const Products = () => {
                 <div className="space-y-4">
                   <Slider
                     min={0}
-                    max={1000}
-                    step={10}
+                    max={250000}
+                    step={1000}
                     value={priceRange}
                     onValueChange={setPriceRange}
                     className="w-full"
                   />
                   <div className="flex items-center justify-between text-sm text-muted-foreground">
-                    <span>${priceRange[0]}</span>
-                    <span>${priceRange[1]}</span>
+                    <span>₹{priceRange[0].toLocaleString('en-IN')}</span>
+                    <span>₹{priceRange[1].toLocaleString('en-IN')}</span>
                   </div>
                 </div>
               </div>

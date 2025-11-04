@@ -22,7 +22,7 @@ All colors MUST be HSL.
     --primary-foreground: 0 0% 100%;
     --primary-hover: 36 100% 45%;
 
-    /* Dark slate for navigation */
+    /* Dark slate for navigation - Amazon style */
     --secondary: 210 20% 25%;
     --secondary-foreground: 0 0% 100%;
 
@@ -41,9 +41,9 @@ All colors MUST be HSL.
 
     --radius: 0.375rem;
 
-    /* Custom e-commerce tokens */
-    --nav-bg: 210 20% 25%;
-    --nav-secondary: 210 20% 35%;
+    /* Custom e-commerce tokens - Amazon style */
+    --nav-bg: 210 29% 16%;
+    --nav-secondary: 210 25% 22%;
     --price: 0 100% 35%;
     --rating: 45 100% 51%;
     --success: 142 76% 36%;
@@ -102,4 +102,30 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Hide scrollbar for carousel */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Smooth animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.5s ease-out;
 }

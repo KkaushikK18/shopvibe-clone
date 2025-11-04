@@ -40,38 +40,39 @@ export const Navbar = ({ cartCount = 0 }: NavbarProps) => {
         <div className="container mx-auto px-4">
           <div className="flex h-16 items-center gap-4">
             {/* Logo */}
-            <Link to="/" className="flex items-center">
-              <div className="flex items-center gap-1">
+            <Link to="/" className="flex items-center hover:opacity-80 transition-opacity">
+              <div className="flex items-center gap-2">
                 <ShoppingCart className="h-8 w-8 text-primary" />
-                <span className="text-xl font-bold text-secondary-foreground">
-                  Amazon
+                <span className="text-2xl font-bold text-white tracking-tight">
+                  amazon
                 </span>
+                <span className="text-xs text-white">.in</span>
               </div>
             </Link>
 
             {/* Delivery location */}
-            <button className="hidden items-center gap-1 text-secondary-foreground hover:text-primary-foreground lg:flex">
-              <MapPin className="h-4 w-4" />
+            <button className="hidden items-center gap-1 text-white hover:border hover:border-white/30 p-2 rounded transition-all lg:flex">
+              <MapPin className="h-5 w-5" />
               <div className="text-left">
-                <div className="text-xs text-muted-foreground">Deliver to</div>
-                <div className="text-sm font-medium">Chennai 600127</div>
+                <div className="text-xs text-gray-300">Deliver to</div>
+                <div className="text-sm font-bold">Chennai 600127</div>
               </div>
             </button>
 
             {/* Search bar */}
-            <form onSubmit={handleSearch} className="flex flex-1 max-w-2xl">
-              <div className="flex w-full">
+            <form onSubmit={handleSearch} className="flex flex-1 max-w-3xl">
+              <div className="flex w-full rounded-md overflow-hidden">
                 <Input
                   type="search"
-                  placeholder="Search products..."
+                  placeholder="Search Amazon.in"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="rounded-r-none border-0 bg-background focus-visible:ring-0"
+                  className="rounded-none border-0 bg-white focus-visible:ring-2 focus-visible:ring-primary h-10"
                 />
                 <Button 
                   type="submit"
                   size="icon" 
-                  className="rounded-l-none bg-primary hover:bg-primary-hover"
+                  className="rounded-none bg-primary hover:bg-primary-hover h-10 w-12"
                 >
                   <Search className="h-5 w-5" />
                 </Button>
@@ -79,16 +80,16 @@ export const Navbar = ({ cartCount = 0 }: NavbarProps) => {
             </form>
 
             {/* Right side links */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
               {isAuthenticated ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="text-secondary-foreground hover:text-primary-foreground">
-                      <User className="mr-2 h-4 w-4" />
+                    <Button variant="ghost" size="sm" className="text-white hover:border hover:border-white/30 p-2 rounded">
                       <div className="hidden text-left md:block">
                         <div className="text-xs">Hello, {user?.name}</div>
-                        <div className="text-sm font-medium">Account</div>
+                        <div className="text-sm font-bold">Account & Lists</div>
                       </div>
+                      <User className="md:hidden h-5 w-5" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-48">
@@ -107,25 +108,36 @@ export const Navbar = ({ cartCount = 0 }: NavbarProps) => {
                 </DropdownMenu>
               ) : (
                 <Link to="/login">
-                  <Button variant="ghost" size="sm" className="text-secondary-foreground hover:text-primary-foreground">
-                    <User className="mr-2 h-4 w-4" />
+                  <Button variant="ghost" size="sm" className="text-white hover:border hover:border-white/30 p-2 rounded">
                     <div className="hidden text-left md:block">
                       <div className="text-xs">Hello, Sign in</div>
-                      <div className="text-sm font-medium">Account</div>
+                      <div className="text-sm font-bold">Account & Lists</div>
                     </div>
+                    <User className="md:hidden h-5 w-5" />
                   </Button>
                 </Link>
               )}
 
+              <Link to="/orders">
+                <Button variant="ghost" size="sm" className="text-white hover:border hover:border-white/30 p-2 rounded hidden md:block">
+                  <div className="text-left">
+                    <div className="text-xs">Returns</div>
+                    <div className="text-sm font-bold">& Orders</div>
+                  </div>
+                </Button>
+              </Link>
+
               <Link to="/cart">
-                <Button variant="ghost" size="sm" className="relative text-secondary-foreground hover:text-primary-foreground">
-                  <ShoppingCart className="h-6 w-6" />
-                  {cartCount > 0 && (
-                    <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
-                      {cartCount}
-                    </span>
-                  )}
-                  <span className="ml-2 hidden font-medium md:inline">Cart</span>
+                <Button variant="ghost" size="sm" className="relative text-white hover:border hover:border-white/30 p-2 rounded flex items-center gap-1">
+                  <div className="relative">
+                    <ShoppingCart className="h-8 w-8" />
+                    {cartCount > 0 && (
+                      <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-bold text-white">
+                        {cartCount}
+                      </span>
+                    )}
+                  </div>
+                  <span className="font-bold text-sm hidden md:inline">Cart</span>
                 </Button>
               </Link>
             </div>
@@ -136,26 +148,36 @@ export const Navbar = ({ cartCount = 0 }: NavbarProps) => {
       {/* Category bar */}
       <div className="bg-nav-secondary">
         <div className="container mx-auto px-4">
-          <div className="flex h-10 items-center gap-6 overflow-x-auto">
-            <button className="flex items-center gap-1 text-sm text-secondary-foreground hover:text-primary-foreground whitespace-nowrap">
+          <div className="flex h-10 items-center gap-6 overflow-x-auto scrollbar-hide">
+            <Link to="/products" className="flex items-center gap-1 text-sm text-white hover:border hover:border-white/30 px-2 py-1 rounded whitespace-nowrap font-medium">
               <Menu className="h-4 w-4" />
-              All Categories
-            </button>
-            <Link to="/products?category=Electronics" className="text-sm text-secondary-foreground hover:text-primary-foreground whitespace-nowrap">
+              All
+            </Link>
+            <Link to="/products?category=Electronics" className="text-sm text-white hover:border hover:border-white/30 px-2 py-1 rounded whitespace-nowrap font-medium">
               Electronics
             </Link>
-            <Link to="/products?category=Fashion" className="text-sm text-secondary-foreground hover:text-primary-foreground whitespace-nowrap">
+            <Link to="/products?category=Fashion" className="text-sm text-white hover:border hover:border-white/30 px-2 py-1 rounded whitespace-nowrap font-medium">
               Fashion
             </Link>
-            <Link to="/products?category=Home & Kitchen" className="text-sm text-secondary-foreground hover:text-primary-foreground whitespace-nowrap">
+            <Link to="/products?category=Home & Kitchen" className="text-sm text-white hover:border hover:border-white/30 px-2 py-1 rounded whitespace-nowrap font-medium">
               Home & Kitchen
             </Link>
-            <Link to="/products?category=Books" className="text-sm text-secondary-foreground hover:text-primary-foreground whitespace-nowrap">
+            <Link to="/products?category=Books" className="text-sm text-white hover:border hover:border-white/30 px-2 py-1 rounded whitespace-nowrap font-medium">
               Books
             </Link>
-            <Link to="/products?category=Sports" className="text-sm text-secondary-foreground hover:text-primary-foreground whitespace-nowrap">
+            <Link to="/products?category=Sports" className="text-sm text-white hover:border hover:border-white/30 px-2 py-1 rounded whitespace-nowrap font-medium">
               Sports
             </Link>
+            <Link to="/products?category=Beauty" className="text-sm text-white hover:border hover:border-white/30 px-2 py-1 rounded whitespace-nowrap font-medium">
+              Beauty
+            </Link>
+            <Link to="/products?category=Toys" className="text-sm text-white hover:border hover:border-white/30 px-2 py-1 rounded whitespace-nowrap font-medium">
+              Toys
+            </Link>
+            <Link to="/products?category=Grocery" className="text-sm text-white hover:border hover:border-white/30 px-2 py-1 rounded whitespace-nowrap font-medium">
+              Grocery
+            </Link>
+            <span className="text-sm text-primary font-bold whitespace-nowrap">Today's Deals</span>
           </div>
         </div>
       </div>

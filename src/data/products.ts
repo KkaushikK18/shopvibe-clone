@@ -46,7 +46,7 @@ export const products: Product[] = [
     originalPrice: 159900,
     rating: 4.8,
     reviews: 15234,
-    image: "https://images.unsplash.com/photo-1696446702183-cbd50c6e8e0c?w=500&q=80",
+    image: "https://rukminim2.flixcart.com/image/480/640/xif0q/mobile/a/r/5/-original-imagtc3kcmph6ax5.jpeg?q=90",
     description: "The ultimate iPhone with A17 Pro chip, titanium design, and advanced camera system with 5x optical zoom.",
     features: ["A17 Pro chip", "6.7-inch Super Retina XDR", "Pro camera system", "Titanium design", "Action button"],
     stock: 45,

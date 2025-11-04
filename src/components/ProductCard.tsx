@@ -1,20 +1,30 @@
 import { Link } from "react-router-dom";
-import { Star, Truck } from "lucide-react";
+import { Star, Truck, ShoppingCart } from "lucide-react";
 import { Product } from "@/data/products";
 import { Badge } from "./ui/badge";
+import { Button } from "./ui/button";
+import { useCart } from "@/contexts/CartContext";
 
 interface ProductCardProps {
   product: Product;
 }
 
 export const ProductCard = ({ product }: ProductCardProps) => {
+  const { addToCart } = useCart();
+  
   const discount = product.originalPrice
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
     : 0;
 
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addToCart(product, 1);
+  };
+
   return (
-    <Link to={`/product/${product.id}`}>
-      <div className="group h-full overflow-hidden rounded-lg border bg-card transition-all hover:shadow-lg">
+    <div className="group h-full overflow-hidden rounded-lg border bg-card transition-all hover:shadow-lg">
+      <Link to={`/product/${product.id}`} className="block">
         {/* Image */}
         <div className="relative aspect-square overflow-hidden bg-muted">
           <img
@@ -67,11 +77,11 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           <div className="mt-3">
             <div className="flex items-baseline gap-2">
               <span className="text-2xl font-bold text-price">
-                ${product.price}
+                ₹{product.price.toLocaleString('en-IN')}
               </span>
               {product.originalPrice && (
                 <span className="text-sm text-muted-foreground line-through">
-                  ${product.originalPrice}
+                  ₹{product.originalPrice.toLocaleString('en-IN')}
                 </span>
               )}
             </div>
@@ -92,7 +102,19 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             </p>
           )}
         </div>
+      </Link>
+
+      {/* Add to Cart Button */}
+      <div className="p-4 pt-0">
+        <Button
+          onClick={handleAddToCart}
+          className="w-full bg-primary hover:bg-primary-hover"
+          size="sm"
+        >
+          <ShoppingCart className="mr-2 h-4 w-4" />
+          Add to Cart
+        </Button>
       </div>
-    </Link>
+    </div>
   );
 };

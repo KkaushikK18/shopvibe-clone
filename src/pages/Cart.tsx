@@ -31,8 +31,8 @@ const Cart = () => {
   }
 
   const subtotal = getTotalPrice();
-  const shipping = subtotal > 100 ? 0 : 9.99;
-  const tax = subtotal * 0.08;
+  const shipping = subtotal > 8300 ? 0 : 830;
+  const tax = subtotal * 0.18;
   const total = subtotal + shipping + tax;
 
   return (
@@ -47,7 +47,7 @@ const Cart = () => {
           <div className="lg:col-span-2 space-y-4">
             {items.map((item) => (
               <div key={item.id} className="flex gap-4 rounded-lg border bg-card p-4">
-                <Link to={`/product/${item.id}`} className="flex-shrink-0">
+                <Link to={`/product/₹{item.id}`} className="flex-shrink-0">
                   <img
                     src={item.image}
                     alt={item.title}
@@ -57,14 +57,14 @@ const Cart = () => {
 
                 <div className="flex flex-1 flex-col justify-between">
                   <div>
-                    <Link to={`/product/${item.id}`}>
+                    <Link to={`/product/₹{item.id}`}>
                       <h3 className="font-semibold hover:text-primary">
                         {item.title}
                       </h3>
                     </Link>
                     <p className="mt-1 text-sm text-muted-foreground">{item.brand}</p>
                     <p className="mt-2 text-xl font-bold text-price">
-                      ${item.price}
+                      ₹{item.price.toLocaleString('en-IN')}
                     </p>
                   </div>
 
@@ -83,7 +83,6 @@ const Cart = () => {
                         size="icon"
                         variant="outline"
                         onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                        disabled={item.quantity >= item.stock}
                       >
                         <Plus className="h-4 w-4" />
                       </Button>
@@ -102,7 +101,7 @@ const Cart = () => {
 
                 <div className="text-right">
                   <p className="text-lg font-bold">
-                    ${(item.price * item.quantity).toFixed(2)}
+                    ₹{(item.price * item.quantity).toLocaleString('en-IN')}
                   </p>
                 </div>
               </div>
@@ -117,7 +116,7 @@ const Cart = () => {
               <div className="space-y-3 border-b pb-4">
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Subtotal ({getTotalItems()} items)</span>
-                  <span>${subtotal.toFixed(2)}</span>
+                  <span>₹{subtotal.toLocaleString('en-IN')}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Shipping</span>
@@ -125,24 +124,24 @@ const Cart = () => {
                     {shipping === 0 ? (
                       <span className="text-success">FREE</span>
                     ) : (
-                      `$${shipping.toFixed(2)}`
+                      `$₹{shipping.toLocaleString('en-IN')}`
                     )}
                   </span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Tax</span>
-                  <span>${tax.toFixed(2)}</span>
+                  <span>₹{tax.toLocaleString('en-IN')}</span>
                 </div>
               </div>
 
               <div className="mt-4 flex justify-between text-lg font-bold">
                 <span>Total</span>
-                <span className="text-price">${total.toFixed(2)}</span>
+                <span className="text-price">₹{total.toLocaleString('en-IN')}</span>
               </div>
 
-              {subtotal < 100 && (
+              {subtotal < 8300 && (
                 <p className="mt-3 text-sm text-muted-foreground">
-                  Add ${(100 - subtotal).toFixed(2)} more for FREE shipping
+                  Add ₹{(8300 - subtotal).toLocaleString('en-IN')} more for FREE shipping
                 </p>
               )}
 

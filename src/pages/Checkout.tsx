@@ -14,8 +14,8 @@ const Checkout = () => {
   const [paymentMethod, setPaymentMethod] = useState("card");
 
   const subtotal = getTotalPrice();
-  const shipping = subtotal > 100 ? 0 : 9.99;
-  const tax = subtotal * 0.08;
+  const shipping = subtotal > 8300 ? 0 : 830;
+  const tax = subtotal * 0.18;
   const total = subtotal + shipping + tax;
 
   const handlePlaceOrder = (e: React.FormEvent) => {
@@ -115,7 +115,7 @@ const Checkout = () => {
                       <span className="text-muted-foreground">
                         {item.title} x {item.quantity}
                       </span>
-                      <span>${(item.price * item.quantity).toFixed(2)}</span>
+                      <span>₹{(item.price * item.quantity).toLocaleString('en-IN')}</span>
                     </div>
                   ))}
                 </div>
@@ -123,7 +123,7 @@ const Checkout = () => {
                 <div className="mt-4 space-y-3 border-t pt-4">
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Subtotal</span>
-                    <span>${subtotal.toFixed(2)}</span>
+                    <span>₹{subtotal.toLocaleString('en-IN')}</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Shipping</span>
@@ -131,19 +131,19 @@ const Checkout = () => {
                       {shipping === 0 ? (
                         <span className="text-success">FREE</span>
                       ) : (
-                        `$${shipping.toFixed(2)}`
+                        `$₹{shipping.toLocaleString('en-IN')}`
                       )}
                     </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Tax</span>
-                    <span>${tax.toFixed(2)}</span>
+                    <span>₹{tax.toLocaleString('en-IN')}</span>
                   </div>
                 </div>
 
                 <div className="mt-4 flex justify-between border-t pt-4 text-lg font-bold">
                   <span>Total</span>
-                  <span className="text-price">${total.toFixed(2)}</span>
+                  <span className="text-price">₹{total.toLocaleString('en-IN')}</span>
                 </div>
 
                 <Button

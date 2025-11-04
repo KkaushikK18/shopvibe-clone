@@ -13,6 +13,7 @@ const Products = () => {
   const { getTotalItems } = useCart();
   const [searchParams] = useSearchParams();
   const categoryParam = searchParams.get("category");
+  const searchQuery = searchParams.get("search");
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     categoryParam ? [categoryParam] : []
@@ -28,10 +29,17 @@ const Products = () => {
       const priceMatch =
         product.price >= priceRange[0] && product.price <= priceRange[1];
       const ratingMatch = product.rating >= minRating;
+      
+      // Search functionality
+      const searchMatch = !searchQuery || 
+        product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchQuery.toLowerCase());
 
-      return categoryMatch && priceMatch && ratingMatch;
+      return categoryMatch && priceMatch && ratingMatch && searchMatch;
     });
-  }, [selectedCategories, priceRange, minRating]);
+  }, [selectedCategories, priceRange, minRating, searchQuery]);
 
   const toggleCategory = (category: string) => {
     setSelectedCategories((prev) =>
@@ -123,7 +131,11 @@ const Products = () => {
           <div className="lg:col-span-3">
             <div className="mb-6">
               <h1 className="text-2xl font-bold">
-                {categoryParam ? `${categoryParam} Products` : "All Products"}
+                {searchQuery 
+                  ? `Search results for "${searchQuery}"`
+                  : categoryParam 
+                  ? `${categoryParam} Products` 
+                  : "All Products"}
               </h1>
               <p className="text-muted-foreground">
                 {filteredProducts.length} results

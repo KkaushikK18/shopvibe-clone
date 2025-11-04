@@ -1,13 +1,38 @@
-import { Link } from "react-router-dom";
-import { MapPin, Search, ShoppingCart, User, Menu } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { MapPin, Search, ShoppingCart, User, Menu, LogOut } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import { useAuth } from "@/contexts/AuthContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useState } from "react";
 
 interface NavbarProps {
   cartCount?: number;
 }
 
 export const Navbar = ({ cartCount = 0 }: NavbarProps) => {
+  const { user, isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
   return (
     <nav className="sticky top-0 z-50 w-full bg-nav shadow-md">
       {/* Top bar */}
@@ -19,7 +44,7 @@ export const Navbar = ({ cartCount = 0 }: NavbarProps) => {
               <div className="flex items-center gap-1">
                 <ShoppingCart className="h-8 w-8 text-primary" />
                 <span className="text-xl font-bold text-secondary-foreground">
-                  ShopVibe
+                  Amazon
                 </span>
               </div>
             </Link>
@@ -29,38 +54,68 @@ export const Navbar = ({ cartCount = 0 }: NavbarProps) => {
               <MapPin className="h-4 w-4" />
               <div className="text-left">
                 <div className="text-xs text-muted-foreground">Deliver to</div>
-                <div className="text-sm font-medium">New York 10001</div>
+                <div className="text-sm font-medium">Chennai 600127</div>
               </div>
             </button>
 
             {/* Search bar */}
-            <div className="flex flex-1 max-w-2xl">
+            <form onSubmit={handleSearch} className="flex flex-1 max-w-2xl">
               <div className="flex w-full">
                 <Input
                   type="search"
                   placeholder="Search products..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   className="rounded-r-none border-0 bg-background focus-visible:ring-0"
                 />
                 <Button 
+                  type="submit"
                   size="icon" 
                   className="rounded-l-none bg-primary hover:bg-primary-hover"
                 >
                   <Search className="h-5 w-5" />
                 </Button>
               </div>
-            </div>
+            </form>
 
             {/* Right side links */}
             <div className="flex items-center gap-4">
-              <Link to="/account">
-                <Button variant="ghost" size="sm" className="text-secondary-foreground hover:text-primary-foreground">
-                  <User className="mr-2 h-4 w-4" />
-                  <div className="hidden text-left md:block">
-                    <div className="text-xs">Hello, Sign in</div>
-                    <div className="text-sm font-medium">Account</div>
-                  </div>
-                </Button>
-              </Link>
+              {isAuthenticated ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm" className="text-secondary-foreground hover:text-primary-foreground">
+                      <User className="mr-2 h-4 w-4" />
+                      <div className="hidden text-left md:block">
+                        <div className="text-xs">Hello, {user?.name}</div>
+                        <div className="text-sm font-medium">Account</div>
+                      </div>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem onClick={() => navigate("/account")}>
+                      Your Account
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => navigate("/orders")}>
+                      Your Orders
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleLogout}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Link to="/login">
+                  <Button variant="ghost" size="sm" className="text-secondary-foreground hover:text-primary-foreground">
+                    <User className="mr-2 h-4 w-4" />
+                    <div className="hidden text-left md:block">
+                      <div className="text-xs">Hello, Sign in</div>
+                      <div className="text-sm font-medium">Account</div>
+                    </div>
+                  </Button>
+                </Link>
+              )}
 
               <Link to="/cart">
                 <Button variant="ghost" size="sm" className="relative text-secondary-foreground hover:text-primary-foreground">

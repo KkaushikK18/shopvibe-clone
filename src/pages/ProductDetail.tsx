@@ -66,7 +66,7 @@ const ProductDetail = () => {
                   >
                     <img
                       src={img}
-                      alt={`${product.title} ${idx + 1}`}
+                      alt={`₹{product.title} ₹{idx + 1}`}
                       className="h-full w-full object-cover"
                     />
                   </div>
@@ -90,7 +90,7 @@ const ProductDetail = () => {
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className={`h-5 w-5 ${
+                    className={`h-5 w-5 ₹{
                       i < Math.floor(product.rating)
                         ? "fill-rating text-rating"
                         : "fill-muted text-muted"
@@ -109,12 +109,12 @@ const ProductDetail = () => {
             <div className="border-b pb-6">
               <div className="flex items-baseline gap-3">
                 <span className="text-4xl font-bold text-price">
-                  ${product.price}
+                  ₹{product.price}
                 </span>
                 {product.originalPrice && (
                   <>
                     <span className="text-xl text-muted-foreground line-through">
-                      ${product.originalPrice}
+                      ₹{product.originalPrice}
                     </span>
                     <span className="text-lg font-medium text-destructive">
                       ({discount}% off)
@@ -166,17 +166,13 @@ const ProductDetail = () => {
             <div className="space-y-4">
               <div className="flex items-center gap-4">
                 <label className="text-sm font-medium">Quantity:</label>
-                <select
+                <input
+                  type="number"
+                  min="1"
                   value={quantity}
-                  onChange={(e) => setQuantity(Number(e.target.value))}
-                  className="rounded border bg-background px-3 py-2"
-                >
-                  {[...Array(Math.min(10, product.stock))].map((_, i) => (
-                    <option key={i + 1} value={i + 1}>
-                      {i + 1}
-                    </option>
-                  ))}
-                </select>
+                  onChange={(e) => setQuantity(Math.max(1, Number(e.target.value)))}
+                  className="rounded border bg-background px-3 py-2 w-20"
+                />
               </div>
 
               <div className="flex gap-3">

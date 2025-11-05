@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/Navbar";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
+import { useOrders } from "@/contexts/OrderContext";
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 const Orders = () => {
   const { getTotalItems } = useCart();
   const { isAuthenticated, user } = useAuth();
+  const { orders } = useOrders();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("all");
@@ -20,76 +22,6 @@ const Orders = () => {
       navigate("/login", { state: { from: { pathname: "/orders" } } });
     }
   }, [isAuthenticated, navigate]);
-
-  // Mock orders data (in real app, this would come from backend)
-  const orders = [
-    {
-      id: "404-8234567-1234567",
-      date: "5 November 2024",
-      deliveryDate: "8 November 2024",
-      total: 144900,
-      status: "Delivered",
-      deliveryAddress: "Chennai, Tamil Nadu 600127",
-      paymentMethod: "UPI",
-      items: [
-        {
-          id: "1",
-          title: "Apple iPhone 15 Pro Max 256GB Natural Titanium",
-          image: "https://rukminim2.flixcart.com/image/480/640/xif0q/mobile/a/r/5/-original-imagtc3kcmph6ax5.jpeg?q=90",
-          quantity: 1,
-          price: 144900,
-          seller: "Apple India",
-        },
-      ],
-    },
-    {
-      id: "404-9876543-7654321",
-      date: "3 November 2024",
-      deliveryDate: "6 November 2024",
-      total: 32989,
-      status: "In Transit",
-      deliveryAddress: "Chennai, Tamil Nadu 600127",
-      paymentMethod: "Credit Card",
-      trackingInfo: "Out for delivery",
-      items: [
-        {
-          id: "2",
-          title: "Sony WH-1000XM5 Wireless Noise Cancelling Headphones",
-          image: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=200&q=80",
-          quantity: 1,
-          price: 29990,
-          seller: "Sony Official Store",
-        },
-        {
-          id: "3",
-          title: "Samsung 128GB MicroSD Card",
-          image: "https://images.unsplash.com/photo-1624823183493-ed5832f48f18?w=200&q=80",
-          quantity: 1,
-          price: 2999,
-          seller: "Samsung India",
-        },
-      ],
-    },
-    {
-      id: "404-1122334-9988776",
-      date: "28 October 2024",
-      deliveryDate: "31 October 2024",
-      total: 2499,
-      status: "Processing",
-      deliveryAddress: "Chennai, Tamil Nadu 600127",
-      paymentMethod: "Cash on Delivery",
-      items: [
-        {
-          id: "4",
-          title: "Boat Airdopes 141 Wireless Earbuds",
-          image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=200&q=80",
-          quantity: 1,
-          price: 2499,
-          seller: "Boat Lifestyle",
-        },
-      ],
-    },
-  ];
 
   const getStatusIcon = (status: string) => {
     switch (status) {

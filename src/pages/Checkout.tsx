@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
+import { useOrders } from "@/contexts/OrderContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -27,7 +28,8 @@ interface FormErrors {
 
 const Checkout = () => {
   const { items, getTotalItems, getTotalPrice, clearCart } = useCart();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
+  const { addOrder } = useOrders();
   const navigate = useNavigate();
   const [paymentMethod, setPaymentMethod] = useState("card");
   const [isLoading, setIsLoading] = useState(false);
@@ -170,11 +172,29 @@ const Checkout = () => {
 
     // Simulate API call
     setTimeout(() => {
+      // Create order from cart items
+      const orderItems = items.map((item) => ({
+        id: item.id,
+        title: item.title,
+        image: item.image,
+        quantity: item.quantity,
+        price: item.price,
+        seller: item.brand || "Amazon",
+      }));
+
+      // Add order to context
+      addOrder({
+        total,
+        deliveryAddress: `${formData.address}, ${formData.city}, ${formData.zip}`,
+        paymentMethod: paymentMethod === "card" ? "Credit Card" : paymentMethod === "upi" ? "UPI" : "Cash on Delivery",
+        items: orderItems,
+      });
+
       toast.success("Order placed successfully! 🎉", {
         description: `Your order of ₹${total.toLocaleString('en-IN')} has been confirmed.`,
       });
       clearCart();
-      navigate("/");
+      navigate("/orders");
       setIsLoading(false);
     }, 1500);
   };

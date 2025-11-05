@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { ProductCard } from "@/components/ProductCard";
@@ -20,6 +20,15 @@ const Products = () => {
   );
   const [priceRange, setPriceRange] = useState<number[]>([0, 250000]);
   const [minRating, setMinRating] = useState<number>(0);
+
+  // Update selected categories when URL parameter changes
+  useEffect(() => {
+    if (categoryParam) {
+      setSelectedCategories([categoryParam]);
+    } else {
+      setSelectedCategories([]);
+    }
+  }, [categoryParam]);
 
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {

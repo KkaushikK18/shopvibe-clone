@@ -15,9 +15,7 @@ const Products = () => {
   const categoryParam = searchParams.get("category");
   const searchQuery = searchParams.get("search");
 
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(
-    categoryParam ? [categoryParam] : []
-  );
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<number[]>([0, 250000]);
   const [minRating, setMinRating] = useState<number>(0);
 
@@ -32,9 +30,14 @@ const Products = () => {
 
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
+      // If there's a category parameter but no selected categories yet, use the parameter
+      const categoriesToCheck = selectedCategories.length > 0 
+        ? selectedCategories 
+        : (categoryParam ? [categoryParam] : []);
+      
       const categoryMatch =
-        selectedCategories.length === 0 ||
-        selectedCategories.includes(product.category);
+        categoriesToCheck.length === 0 ||
+        categoriesToCheck.includes(product.category);
       const priceMatch =
         product.price >= priceRange[0] && product.price <= priceRange[1];
       const ratingMatch = product.rating >= minRating;
@@ -63,7 +66,7 @@ const Products = () => {
 
       return categoryMatch && priceMatch && ratingMatch && searchMatch;
     });
-  }, [selectedCategories, priceRange, minRating, searchQuery]);
+  }, [selectedCategories, priceRange, minRating, searchQuery, categoryParam]);
 
   const toggleCategory = (category: string) => {
     setSelectedCategories((prev) =>

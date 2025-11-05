@@ -19,8 +19,8 @@ const Home = () => {
   const electronicsProducts = products.filter((p) => p.category === "Electronics").slice(0, 8);
   const fashionProducts = products.filter((p) => p.category === "Fashion").slice(0, 8);
   const homeKitchenProducts = products.filter((p) => p.category === "Home & Kitchen").slice(0, 8);
-  const beautyProducts = products.filter((p) => p.category === "Beauty").slice(0, 8);
-  const sportsProducts = products.filter((p) => p.category === "Sports").slice(0, 8);
+  const beautyProducts = products.filter((p) => p.category === "Beauty & Personal Care").slice(0, 8);
+  const sportsProducts = products.filter((p) => p.category === "Sports & Fitness").slice(0, 8);
 
   const categories = [
     {
@@ -36,22 +36,22 @@ const Home = () => {
     {
       title: "Home & Kitchen",
       image: "https://images.unsplash.com/photo-1556911220-bff31c812dba?w=500&q=80",
-      link: "/products?category=Home & Kitchen",
+      link: "/products?category=Home%20%26%20Kitchen",
     },
     {
       title: "Beauty & Personal Care",
       image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=500&q=80",
-      link: "/products?category=Beauty & Personal Care",
+      link: "/products?category=Beauty%20%26%20Personal%20Care",
     },
     {
       title: "Sports & Fitness",
       image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=500&q=80",
-      link: "/products?category=Sports & Fitness",
+      link: "/products?category=Sports%20%26%20Fitness",
     },
     {
       title: "Toys & Games",
       image: "https://images.unsplash.com/photo-1560015534-cee980ba7e13?w=500&q=80",
-      link: "/products?category=Toys & Games",
+      link: "/products?category=Toys%20%26%20Games",
     },
     {
       title: "Books",
@@ -172,7 +172,7 @@ const Home = () => {
             <ProductCarousel
               title="Home & Kitchen Essentials"
               products={homeKitchenProducts}
-              viewAllLink="/products?category=Home & Kitchen"
+              viewAllLink="/products?category=Home%20%26%20Kitchen"
             />
           </section>
         )}
@@ -183,7 +183,7 @@ const Home = () => {
             <ProductCarousel
               title="Beauty & Personal Care"
               products={beautyProducts}
-              viewAllLink="/products?category=Beauty"
+              viewAllLink="/products?category=Beauty%20%26%20Personal%20Care"
             />
           </section>
         )}
@@ -194,7 +194,7 @@ const Home = () => {
             <ProductCarousel
               title="Sports & Fitness"
               products={sportsProducts}
-              viewAllLink="/products?category=Sports"
+              viewAllLink="/products?category=Sports%20%26%20Fitness"
             />
           </section>
         )}
